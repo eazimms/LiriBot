@@ -32,12 +32,16 @@ inquirer.prompt([
     case 'spotify this':
       var song = answers.query; 
 
+      if(!song){
+        song = "The Sign Ace of Base"; 
+      }
+
       var spotify = new Spotify(keys.spotify)
 
       spotify.search({
         type: 'track',
         query: song,
-        limit: 1, 
+        limit: 5, 
 
       },
       function(error, data){
@@ -45,14 +49,16 @@ inquirer.prompt([
           return console.log('you goofed ' + error); 
         }
         // var test = JSON.stringify(data.tracks.items); 
-        var songs = data.tracks.items; 
+        var songs = data.tracks.items[0]; 
 
       
 
-        for (var i = 0; i < songs.length; i++)
-        // console.log(test[i]); 
-        console.log(songs[i].href); 
-        console.log(songs[i]);  
+        
+        console.log('Artist: ' +songs.artists[0].name); 
+        console.log('Song name: ' +songs.name); 
+        console.log('Album name: ' + songs.album.name) 
+        console.log('Preview URL: ' +songs.preview_url); 
+        console.log('---------'); 
         
       }); 
       
